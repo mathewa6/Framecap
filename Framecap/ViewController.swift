@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 import CoreMedia
 
 
@@ -16,6 +17,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var videoButton: UIButton!
     var picker = UIImagePickerController()
     var player: AVPlayer?
+    var currentURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,26 +31,54 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.openLib()
     }
     
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    func captureImage() {
+        let imgView = UIImageView(image: frameImage(fromURL: currentURL!))
+        imgView.frame = self.view.bounds
+        let scaledIMG = imageWithImage(image: imgView.image!, scaledToSize: CGSize(width: 64.0, height: 36.0))
+        UIImageWriteToSavedPhotosAlbum(scaledIMG, nil, nil, nil)
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let selectedType =  info[UIImagePickerControllerMediaType] as! String
         
         guard let url = info[UIImagePickerControllerMediaURL] as? URL else {
             print("Not a Video...")
             return
         }
         
-        //player = AVPlayer(url: url)
-        //player?.actionAtItemEnd = .pause
-        //let layer = AVPlayerLayer(player: player)
-        //layer.frame = self.view.bounds
-        //layer.videoGravity = AVLayerVideoGravityResizeAspect
-        // self.view.layer.addSublayer(layer)
-        // player?.play()
-        let imgView = UIImageView(image: frameImage(fromURL: url))
-        imgView.frame = self.view.bounds
-        UIImageWriteToSavedPhotosAlbum(imgView.image!, nil, nil, nil)
-        // imgView.image?.renderingMode =
-        self.view.addSubview(imgView)
+        currentURL = url
+        player = AVPlayer(url: currentURL!)
+        
+        let playerVC = AVPlayerViewController()
+        playerVC.player = player
+        
+        let butt = UIButton(type: .system)
+        butt.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
+        butt.frame = CGRect(x: 10, y: 100, width: 75, height: 75)
+        butt.layer.cornerRadius = butt.frame.size.width/2
+        butt.tintColor = UIColor.purple
+        butt.isOpaque = true
+        butt.showsTouchWhenHighlighted = true
+        butt.backgroundColor = UIColor.white
+        butt.titleLabel?.textColor = UIColor.white
+        butt.titleLabel?.text = "CAPTURE"
+
+        picker.dismiss(animated: true)
+
+        self.present(playerVC,
+                     animated: true) {
+                        playerVC.player?.play()
+                        playerVC.view?.addSubview(butt)
+                        playerVC.view?.bringSubview(toFront: butt)
+        }
+        
         let path = url.path
         if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path) {
             //UISaveVideoAtPathToSavedPhotosAlbum(path, nil, nil,  nil)
@@ -60,6 +90,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             picker.delegate = self
             picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+            picker.videoQuality = .typeHigh
             picker.sourceType = .photoLibrary
             picker.allowsEditing = true
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -82,12 +113,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         
-        var time = asset.duration
-        time.value = min(time.value, 2)
-        //time = CMTimeMultiplyByFloat64(time, 0.5)
+        let time = player?.currentTime()
         
         do {
-            let img = try generator.copyCGImage(at: time, actualTime: nil)
+            let img = try generator.copyCGImage(at: time!, actualTime: nil)
             return UIImage(cgImage: img)
         } catch let error as NSError {
             print("Failed : \(error)")
