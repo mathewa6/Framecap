@@ -13,6 +13,7 @@ import CoreMedia
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet var videoButton: UIButton!
     var picker = UIImagePickerController()
     var player: AVPlayer?
     
@@ -22,6 +23,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    @IBAction func showVideos(_ sender: UIButton) {
         self.openLib()
     }
     
@@ -60,7 +64,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             picker.allowsEditing = true
             if UIDevice.current.userInterfaceIdiom == .pad {
                 picker.modalPresentationStyle = .popover
-                picker.popoverPresentationController?.sourceView = self.view
+                picker.popoverPresentationController?.sourceView = self.videoButton
                 self.present(picker, animated: true, completion: nil)
             } else {
                 self.present(picker, animated: true, completion: nil)
