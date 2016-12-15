@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ick-Rw-84E">
-                                <rect key="frame" x="422" y="354" width="180" height="60"/>
+                                <rect key="frame" x="448" y="362.5" width="128" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ick-Rw-84E" secondAttribute="height" multiplier="3:1" id="cuJ-ut-0pe"/>
                                 </constraints>
@@ -38,7 +38,7 @@
                         <constraints>
                             <constraint firstItem="ick-Rw-84E" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="33f-Gz-mAr"/>
                             <constraint firstItem="ick-Rw-84E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3GN-c7-Psb"/>
-                            <constraint firstItem="ick-Rw-84E" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="15:64" id="x8C-Hv-wjt"/>
+                            <constraint firstItem="ick-Rw-84E" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1:6" id="x8C-Hv-wjt"/>
                         </constraints>
                     </view>
                     <connections>

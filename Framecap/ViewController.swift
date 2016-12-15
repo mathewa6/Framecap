@@ -65,6 +65,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if UIDevice.current.userInterfaceIdiom == .pad {
                 picker.modalPresentationStyle = .popover
                 picker.popoverPresentationController?.sourceView = self.videoButton
+                picker.popoverPresentationController?.sourceRect = CGRect(x: self.videoButton.frame.width/2.0,
+                                                                          y: self.videoButton.frame.height/2.0,
+                                                                          width: self.videoButton.frame.width/2.0,
+                                                                          height: self.videoButton.frame.height/2.0)
+                picker.popoverPresentationController?.permittedArrowDirections = .left
                 self.present(picker, animated: true, completion: nil)
             } else {
                 self.present(picker, animated: true, completion: nil)
