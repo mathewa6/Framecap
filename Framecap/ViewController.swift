@@ -15,6 +15,7 @@ import CoreMedia
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var videoButton: UIButton!
+    var captureButton: UIButton?
     var picker = UIImagePickerController()
     var player: AVPlayer?
     var currentURL: URL?
@@ -40,6 +41,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func captureImage() {
+        UIView.animate(withDuration: 0.1 ,
+                                   animations: {
+                                    self.captureButton!.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        },
+                                   completion: { finish in
+                                    UIView.animate(withDuration: 0.1){
+                                        self.captureButton!.transform = .identity
+                                    }
+        })
+        
         let imgView = UIImageView(image: frameImage(fromURL: currentURL!))
         imgView.frame = self.view.bounds
         let scaledIMG = imageWithImage(image: imgView.image!, scaledToSize: CGSize(width: 64.0, height: 36.0))
@@ -63,13 +74,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         butt.addTarget(self, action: #selector(self.captureImage), for: .touchUpInside)
         butt.frame = CGRect(x: 10, y: 100, width: 75, height: 75)
         butt.layer.cornerRadius = butt.frame.size.width/2
-        butt.tintColor = UIColor.purple
+        butt.tintColor = UIColor.red
         butt.isOpaque = true
         butt.showsTouchWhenHighlighted = true
         butt.backgroundColor = UIColor.white
-        butt.titleLabel?.textColor = UIColor.white
+        butt.titleLabel?.textColor = UIColor.red
         butt.titleLabel?.text = "CAPTURE"
-
+        captureButton = butt
+        
         picker.dismiss(animated: true)
 
         self.present(playerVC,
