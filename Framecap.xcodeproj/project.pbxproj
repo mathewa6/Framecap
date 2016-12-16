@@ -12,6 +12,7 @@
 		97330B671E033B5400BA8574 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97330B651E033B5400BA8574 /* Main.storyboard */; };
 		97330B691E033B5400BA8574 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97330B681E033B5400BA8574 /* Assets.xcassets */; };
 		97330B6C1E033B5400BA8574 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97330B6A1E033B5400BA8574 /* LaunchScreen.storyboard */; };
+		97330B751E03856D00BA8574 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97330B741E03856D00BA8574 /* Album.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		97330B6B1E033B5400BA8574 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97330B6D1E033B5400BA8574 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97330B731E033D5300BA8574 /* AVExperiment.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = AVExperiment.playground; sourceTree = "<group>"; };
+		97330B741E03856D00BA8574 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				97330B611E033B5400BA8574 /* AppDelegate.swift */,
 				97330B731E033D5300BA8574 /* AVExperiment.playground */,
 				97330B631E033B5400BA8574 /* ViewController.swift */,
+				97330B741E03856D00BA8574 /* Album.swift */,
 				97330B651E033B5400BA8574 /* Main.storyboard */,
 				97330B681E033B5400BA8574 /* Assets.xcassets */,
 				97330B6A1E033B5400BA8574 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 			files = (
 				97330B641E033B5400BA8574 /* ViewController.swift in Sources */,
 				97330B621E033B5400BA8574 /* AppDelegate.swift in Sources */,
+				97330B751E03856D00BA8574 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +308,7 @@
 				97330B721E033B5400BA8574 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
