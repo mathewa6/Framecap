@@ -19,6 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var picker = UIImagePickerController()
     var player: AVPlayer?
     var currentURL: URL?
+    var currentAlbum: Album?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                         let imgView = UIImageView(image: self.frameImage(fromURL: self.currentURL!))
                                         imgView.frame = self.view.bounds
                                         let scaledIMG = self.imageWithImage(image: imgView.image!, scaledToSize: CGSize(width: 64.0, height: 36.0))
-                                        UIImageWriteToSavedPhotosAlbum(scaledIMG, nil, nil, nil)
+                                        // UIImageWriteToSavedPhotosAlbum(scaledIMG, nil, nil, nil)
+                                        self.currentAlbum?.save(image: scaledIMG)
                                     }
         })
         
@@ -67,6 +69,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         currentURL = url
         player = AVPlayer(url: currentURL!)
+        
+//        currentAlbum?.name = "\(CMTimeGetSeconds((player?.currentItem?.duration)!))"
         
         let playerVC = AVPlayerViewController()
         playerVC.player = player
@@ -87,6 +91,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         self.present(playerVC,
                      animated: true) {
+                        self.currentAlbum = Album(name: "\(CMTimeGetSeconds((self.player?.currentItem?.duration)!))")
+                        
                         playerVC.player?.play()
                         playerVC.view?.addSubview(butt)
                         playerVC.view?.bringSubview(toFront: butt)

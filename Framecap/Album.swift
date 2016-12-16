@@ -10,19 +10,14 @@ import Foundation
 import Photos
 
 
-class CustomPhotoAlbum: NSObject {
-    static let albumName = "Timestamp"
-    static let sharedInstance = CustomPhotoAlbum()
+class Album: NSObject {
+    var name = "Timestamp"
     
     var assetCollection: PHAssetCollection!
     
-    override init() {
-        super.init()
-        
-        if let assetCollection = fetchAssetCollectionForAlbum() {
-            self.assetCollection = assetCollection
-            return
-        }
+    convenience init(name: String) {
+        self.init()
+        self.name = name
         
         if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
             PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
@@ -37,18 +32,28 @@ class CustomPhotoAlbum: NSObject {
         }
     }
     
+    override init() {
+        super.init()
+        
+        if let assetCollection = fetchAssetCollectionForAlbum() {
+            self.assetCollection = assetCollection
+            return
+        }
+        
+    }
+    
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-            print("trying again to create the album")
+            print("Trying again to create the album.")
             self.createAlbum()
         } else {
-            print("should really prompt the user to let them know it's failed")
+            print("FAILED")
         }
     }
     
     func createAlbum() {
         PHPhotoLibrary.shared().performChanges({
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: CustomPhotoAlbum.albumName)
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: self.name)
         }) { success, error in
             if success {
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
@@ -60,7 +65,7 @@ class CustomPhotoAlbum: NSObject {
     
     func fetchAssetCollectionForAlbum() -> PHAssetCollection? {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.predicate = NSPredicate(format: "title = %@", CustomPhotoAlbum.albumName)
+        fetchOptions.predicate = NSPredicate(format: "title = %@", self.name)
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
         if let _: AnyObject = collection.firstObject {
@@ -71,7 +76,7 @@ class CustomPhotoAlbum: NSObject {
     
     func save(image: UIImage) {
         if assetCollection == nil {
-            return                          // if there was an error upstream, skip the save
+            return
         }
         
         PHPhotoLibrary.shared().performChanges({
