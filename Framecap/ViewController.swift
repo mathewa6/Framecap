@@ -48,13 +48,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                    completion: { finish in
                                     UIView.animate(withDuration: 0.1){
                                         self.captureButton!.transform = .identity
+                                        self.player?.pause()
+                                        let imgView = UIImageView(image: self.frameImage(fromURL: self.currentURL!))
+                                        imgView.frame = self.view.bounds
+                                        let scaledIMG = self.imageWithImage(image: imgView.image!, scaledToSize: CGSize(width: 64.0, height: 36.0))
+                                        UIImageWriteToSavedPhotosAlbum(scaledIMG, nil, nil, nil)
                                     }
         })
         
-        let imgView = UIImageView(image: frameImage(fromURL: currentURL!))
-        imgView.frame = self.view.bounds
-        let scaledIMG = imageWithImage(image: imgView.image!, scaledToSize: CGSize(width: 64.0, height: 36.0))
-        UIImageWriteToSavedPhotosAlbum(scaledIMG, nil, nil, nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
