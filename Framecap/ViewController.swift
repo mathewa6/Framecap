@@ -124,6 +124,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func frameImage(fromURL url: URL) -> UIImage? {
         let asset = AVAsset (url: url)
         let generator = AVAssetImageGenerator(asset: asset)
+        generator.requestedTimeToleranceAfter = kCMTimeZero
+        generator.requestedTimeToleranceBefore = kCMTimeZero
         generator.appliesPreferredTrackTransform = true
         
         let time = player?.currentTime()
