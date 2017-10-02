@@ -58,7 +58,7 @@ class Album: NSObject {
             if success {
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
             } else {
-                print("error \(error)")
+                print("error \(String(describing: error))")
             }
         }
     }

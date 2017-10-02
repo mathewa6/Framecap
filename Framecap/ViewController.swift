@@ -41,7 +41,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return newImage
     }
     
-    func captureImage() {
+    @objc func captureImage() {
         UIView.animate(withDuration: 0.1 ,
                                    animations: {
                                     self.captureButton!.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
